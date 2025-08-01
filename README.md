@@ -17,7 +17,7 @@ This simulator is developed based on my own intrest, this is not a tutorial of g
 
 ## Road map:
 - Week1: Basic Blackjack game engine and Advanced rules
-  - [ ] Day 1: Set up repo & environment, Create project structure.
+  - [x] Day 1: Set up repo & environment, Create project structure.
   - [ ] Day 2-3: Finish the basic blackjack game engine. (basic function: hit, stand and win/lose)
   - [ ] Day 3-7: Finish `Advanced rules`. Enable `splits`,`double down`, `side bet` and `multi-hands` game (a player can play multiple hand at once)
   
