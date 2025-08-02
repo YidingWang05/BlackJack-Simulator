@@ -2,10 +2,14 @@
 
 A simulator for Blackjack--a classic casino games. To simulate the process of the game and evaluate different strategies
 
-## Read before continue
-This simulator is developed based on my own intrest, this is not a tutorial of gamble. Gambling is addictive and risky. If you are not a gambler yet, I suggest do not try gamble at all. If you already interact with casino games, make sure stay in your limit. 
+## Disclaimer
+### Disclaimer
+This simulator is developed for **educational and research purposes only**.  
+It is **NOT a tutorial or guide for gambling**. Gambling involves financial risk and can lead to addiction.  
+If you are not already involved with casino games, I strongly advise against engaging in real gambling activities.  
 
-*Remember, house always win. In this simulator, you may find out that under certain strategies, the player might win some money. However, these strategies require lots of practice and not suitable for new players. Therefore, I don't suggest try out in real casino unless you accept lose some money.
+While this simulator may demonstrate how different strategies affect outcomes, these results are theoretical and based on simulated conditions.  
+They should **not be interpreted as advice or a guarantee of success in real casino environments**.
 
 ## Planed features
 - [ ] Basic Blackjack game engine (single player vs dealer)
