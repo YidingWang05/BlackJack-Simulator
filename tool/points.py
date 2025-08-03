@@ -1,16 +1,24 @@
 
 def count_points(decks):
     points = 0
+    aces = 0
     for card in decks:
         if card[1] == "T" or card[1] == "J" or card[1] == "Q" or card[1] == "K":
             points += 10
-        elif card[1] == "A" and points<=10:
+        elif card[1] == "A":
             points += 11
-        elif card[1] == "A" and points>10:
-            points += 1
+            aces += 1 # mark how many aces we have
         else:
             points += int(card[1])
+            """treat aces as 11 initially. If the points go over 21, we sub 10 from the total point.
+                this action is equivalent to change aces to 1
+            """
+    while aces > 0 and points > 21 : # only aces can be changed from 11 to 1, therefore, the times of sub 10 can't exceed 21
+        points -= 10
+        aces -= 1
     return points
+
+
 
 def is_blackjack(hands):
     if len(hands) == 2:
@@ -20,3 +28,7 @@ def is_blackjack(hands):
             return False
     else:
         return False
+
+# test:
+print(count_points(['♣A','♥2','♣T']))
+print(count_points(['♣A','♥2','♣T','♣T']))
