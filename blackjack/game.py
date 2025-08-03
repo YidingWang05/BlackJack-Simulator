@@ -38,9 +38,9 @@ def blackjack_traditional (chips, decks):
         # player's first card
         player.append([])
         player[1].append(decks.pop(0))
-        player_points = count_points(player[1])
+        player[0] = count_points(player[1])
         print("player's hand: ", player[1])
-        print("player's points: ", player_points)
+        print("player's points: ", player[0])
         # dealer's first card
         dealer.append(decks.pop(0))
         dealer_points = count_points(dealer)
@@ -48,25 +48,25 @@ def blackjack_traditional (chips, decks):
         print("dealer's points: ", dealer_points)
         # player's second card
         player[1].append(decks.pop(0))
-        player_points = count_points(player[1])
+        player[0] = count_points(player[1])
         print("player's hand: ", player[1])
-        print("player's points: ", player_points)
+        print("player's points: ", player[0])
 
         # ask for hit or stand, when > 21 (bust) auto stop by rule
-        while True and player_points < 21:
+        while True and player[0] < 21:
             isHit = input("Hit or stand? (h for hit and s for stand): ")
             if isHit == 's' or isHit == 'S' :
                 break
             elif isHit == 'h' or isHit == 'H':
                 player[1].append(decks.pop(0))
-                player_points = count_points(player[1])
+                player[0] = count_points(player[1])
                 print("player's hand: ", player[1])
-                print("player's points: ", player_points)
+                print("player's points: ", player[0])
             else:
                 print("invalid input")
                 continue
 
-        if player_points > 21: print("too much!")
+        if player[0] > 21: print("too much!")
         else:
             # dealer keeps drawing till >= 17
             while dealer_points < 17:
@@ -77,15 +77,15 @@ def blackjack_traditional (chips, decks):
             # dealer too much
             if dealer_points > 21:
                 print("too much for dealer!")
-                if player_points <= 21:
+                if player[0] <= 21:
                     print("player win!")
                     chips += 2*bets.pop(0)
             # player win
-            if dealer_points < player_points:
+            elif dealer_points < player[0]:
                 print("player win!")
                 chips += 2*bets.pop(0)
             # push
-            elif dealer_points == player_points:
+            elif dealer_points == player[0]:
                 print("push")
                 chips += bets.pop(0)
             else:
