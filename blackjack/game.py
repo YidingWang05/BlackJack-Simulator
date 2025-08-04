@@ -1,17 +1,30 @@
 from tool.points import count_points
 from tool.pairCheck import pair_check
 from tool.bjCheck import is_blackjack
+from tool.deck import prepare_cards
 
-def blackjack_traditional (chips, decks):
-
-    print("burning cards, draw 5 cards. ")
-    for i in range(5):
-        decks.pop(0)
-        # this is a burning cards rule, often used in traditional blackjack.
-        # when this rule apply, when a new sets of cards first in use, need to draw some cards out without showing to anyone
-        # typically, 3 to 10 cards. Each casino has their own rule.
+def blackjack_traditional (chips, decks, last_card, num_of_deck):
+    if len(decks) >= num_of_deck*52:
+        print("burning cards, draw 5 cards. ")
+        for i in range(5):
+            print("card " + str(i))
+            decks.pop(0)
+            # this is a burning cards rule, often used in traditional blackjack.
+            # when this rule apply, when a new sets of cards first in use, need to draw some cards out without showing to anyone
+            # typically, 3 to 10 cards. Each casino has their own rule.
 
     while True:
+        # when the last card has been drawn, re-shuffle the decks
+        if len(len(decks) < last_card):
+            decks = prepare_cards(num_of_deck)
+            print("Too less cards left")
+            print("shuffling decks")
+            print("burning cards, draw 5 cards. ")
+            for i in range(5):
+                print("card " + str(i))
+                decks.pop(0)
+            last_card = int(0.2*len(decks)) # mark the last card position.
+
         dealer = []
         player = [[0]]  # player's hand use 2D array, each hand in a list
         bets = []  # a list to track each hands' main bets.

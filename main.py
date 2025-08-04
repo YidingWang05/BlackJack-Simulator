@@ -32,7 +32,8 @@ while True:
 
     print("Your chips: £" + str(chips))
     decks = prepare_cards(number_of_decks)
-    chips, decks = blackjack_traditional(chips, decks)
+    last_card = int(0.2*len(decks))
+    chips, decks = blackjack_traditional(chips, decks, last_card, number_of_decks)
     # print(decks, number_of_cards)
 
 
