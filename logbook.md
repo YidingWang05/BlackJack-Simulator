@@ -12,16 +12,18 @@ new tasks:
 Finished the basic game. Now it can play with minimum option (`buy-in`, `hit` and `stand`). 
 
 next stage:
-Finish `Advanced rules` add `blackjack check` to check if player or dealer has `blackjack` and pay out accordingly
+- Finish `Advanced rules` add `blackjack check` to check if player or dealer has `blackjack` and pay out accordingly
 
 ### 04/08/2025
-Finished the `multi-hand` function. Got prepared for `split`. Too many loops used--potentially to be improved.
+- Finished the `multi-hand` function. Got prepared for `split`. Too many loops used--potentially to be improved.
+- Finished the `last card`. This mimic the real situation, dealer will shuffle the cards again when there are too less card left in the shoe.
+    - In the real casino, the last card is marked by a coloured card that inserted in to the decks. This "marker" will be inserted by human dealer and therefore, it's impossible to ensure the same position each time. To simulate this, in this project, I use a random number to choose a position near the end of the decks. 
 
 Note:
-A difficulty is `bust` check. For `multi-hand` game, if all player's hand bust, dealer will skip drawing cards for them. Also, once a player bust, this hand will be instantly lose.
+- A difficulty is `bust` check. For `multi-hand` game, if all player's hand bust, dealer will skip drawing cards for them. Also, once a player bust, this hand will be instantly lose.
 
-An idea is that directly `pop()` the busted hand, when the `player` list is empty, we skip drawing cards for dealer. 
-pro: easy algo, less complexity, reduce the number of loops used.
-con: might be confusing for real user.
+- An idea is that directly `pop()` the busted hand, when the `player` list is empty, we skip drawing cards for dealer. 
+  - pro: easy algo, less complexity, reduce the number of loops used.
+  - con: might be confusing for real user.
 
 
