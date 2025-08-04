@@ -1,5 +1,6 @@
 from tool.points import count_points
 from tool.pairCheck import pair_check
+from tool.bjCheck import is_blackjack
 
 def blackjack_traditional (chips, decks):
 
@@ -15,7 +16,7 @@ def blackjack_traditional (chips, decks):
         player = [[0]]  # player's hand use 2D array, each hand in a list
         bets = []  # a list to track each hands' main bets.
         sides_bets = [[]]  # a 2D array to track sides bets, each list service one hand, inside this list, each element can stand for one bet, tie? pair? first3 cards?
-
+        payout = 0
         print("your chips: £", chips)
 
         bet_down = int(input("place your bet: £"))
@@ -113,6 +114,17 @@ def blackjack_traditional (chips, decks):
                 else:
                     print("invalid input")
                     continue
+            if is_blackjack(player[i]) and (dealer_points != 10 or dealer_points != 11):
+                print("Blackjack on hand", str(i), "!")
+                payout += 1.5*bets[i-1]
+                print("your payout on this hand: ", str(payout))
+                chips += payout
+                payout = 0
+                player.pop(i)
+                bets.pop(i)
+                player[0].pop(i-1)
+                continue # if player has blackjack on this hand and dealer has no chance to get blackjack i.e. first card is not 10 or 11, directly pay player at 3 to 2
+
             if player[0][i-1] > 21:
                 print("too much for hand", str(i))
                 print("you lose the bet for this hand")
@@ -127,7 +139,6 @@ def blackjack_traditional (chips, decks):
         if len(player) <= 1:
             print("all player's hand busted, house win.") #if player bust all their hands, no need to draw cards for the dealer
         else:
-            payout = 0
             # dealer keeps drawing till >= 17
             # todo: compare player's each hand against dealer
             while dealer_points < 17:
@@ -145,13 +156,15 @@ def blackjack_traditional (chips, decks):
             # player win
             else:
                 for i in range(1, len(player)):
-                    if dealer_points < player[0][i-1]:
+                    if is_blackjack(dealer) and (player[0][i-1] != 21):
+                        print("dealer has blackjack!")
+                    elif dealer_points < player[0][i-1]:
                         print("hand", str(i), "win!")
                         payout += 2*bets[i-1]
                         # push
-                    elif dealer_points == player[0][i-1]:
+                    elif dealer_points == player[0][i-1] or (is_blackjack(dealer) and is_blackjack(player[i])):
                         print("hand", str(i), "push!")
-                        payout += 2*bets[i-1]
+                        payout += bets[i-1] #if is a tie, just return the bet
                     else:
                         print("dealer's win!")
 
