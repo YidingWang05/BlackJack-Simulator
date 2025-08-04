@@ -1,4 +1,5 @@
 from tool.points import count_points
+from tool.pairCheck import pair_check
 
 def blackjack_traditional (chips, decks):
 
@@ -15,11 +16,9 @@ def blackjack_traditional (chips, decks):
         bets = []  # a list to track each hands' main bets.
         sides_bets = [[]]  # a 2D array to track sides bets, each list service one hand, inside this list, each element can stand for one bet, tie? pair? first3 cards?
 
-        dealer_points = 0
-        player_points = 0
         print("your chips: £", chips)
-        bet_down = int(input("place your bet: £"))
 
+        bet_down = int(input("place your bet: £"))
         if bet_down > chips:
             print("no sufficient chips available.")
             buy_in = input("entre the amount of chips you want, or press n to leave: £")
@@ -28,47 +27,109 @@ def blackjack_traditional (chips, decks):
             chips += int(buy_in)
             continue
 
-        if bet_down <= 5 or (bet_down % 5 != 0):
+        if bet_down < 5 or (bet_down % 5 != 0):
             print("Minimum bet £5, and the bets must be multiple of 5")
             continue
-
+        player.append([])
         bets.append(bet_down)
-        chips -= bet_down
+        chips -= bets[0]
 
+        num_of_hands = 1
+        index = 0
+        # use a while loop to ask if user want one more hand
+        while True and (len(bets)) <= 6:
+            input1 = input("press m for one more hand, press c to continue with current hand: ")
+            if input1 == "m" or input1 == "M":
+                # if user want to play another hand, append an empty list in player to store the cards
+                bet_down = int(input("place your bet for this hand: £"))
+                # chips vs bet check
+                if bet_down < 5 or (bet_down % 5 != 0):
+                    print("Minimum bet £5, and the bets must be multiple of 5")
+                    continue
+                if bet_down > chips:
+                    print("no sufficient chips available.")
+                    buy_in = input("entre the amount of chips you want, or press n to leave: £")
+                    if buy_in == 'n':
+                        break
+                    chips += int(buy_in)
+                    continue
+                #check end
+                num_of_hands += 1
+                player.append([])
+                player[0].append(0)
+                bets.append(bet_down)
+                index += 1
+                chips -= bets[index]
+                continue
+            elif input1 == "c" or input1 == "C":
+                print("No more bets")
+                break
+            else:
+                print("Invalid input")
+                continue
+
+        # use for-loop to draw cards for each hands of player.
         # player's first card
+        for i in range(1, len(player)):
+            player[i].append(decks.pop(0))
+            # print(player)
+            player[0][i-1] = count_points(player[i])
+            print("player's hand-", str(i), ": ",player[i])
+            print("player's points-", str(i), ": ", player[0][i-1])
+
+        """
         player.append([])
         player[1].append(decks.pop(0))
-        player[0] = count_points(player[1])
+        player[0][0] = count_points(player[1])
         print("player's hand: ", player[1])
-        print("player's points: ", player[0])
+        print("player's points: ", player[0][0])
+        """
         # dealer's first card
         dealer.append(decks.pop(0))
         dealer_points = count_points(dealer)
         print("dealer's hand: ", dealer)
         print("dealer's points: ", dealer_points)
         # player's second card
-        player[1].append(decks.pop(0))
-        player[0] = count_points(player[1])
-        print("player's hand: ", player[1])
-        print("player's points: ", player[0])
+        for i in range(1, len(player)):
+            player[i].append(decks.pop(0))
+            # print(player)
+            player[0][i-1] = count_points(player[i])
+            print("player's hand-", str(i), ": ", player[i])
+            print("player's points-", str(i), ": ", player[0][i-1])
 
         # ask for hit or stand, when > 21 (bust) auto stop by rule
-        while True and player[0] < 21:
-            isHit = input("Hit or stand? (h for hit and s for stand): ")
-            if isHit == 's' or isHit == 'S' :
-                break
-            elif isHit == 'h' or isHit == 'H':
-                player[1].append(decks.pop(0))
-                player[0] = count_points(player[1])
-                print("player's hand: ", player[1])
-                print("player's points: ", player[0])
-            else:
-                print("invalid input")
+        i = 1
+        while i < len(player):
+            while True and player[0][i-1] < 21:
+                print("Hit or stand on hand-",str(i),"?")
+                is_hit = input("(h for hit and s for stand): ")
+                if is_hit == 's' or is_hit == 'S' :
+                    break
+                elif is_hit == 'h' or is_hit == 'H':
+                    player[i].append(decks.pop(0))
+                    player[0][i-1] = count_points(player[i])
+                    print("player's hand-", str(i), ": ", player[i])
+                    print("player's points-", str(i), ": ", player[0][i - 1])
+                else:
+                    print("invalid input")
+                    continue
+            if player[0][i-1] > 21:
+                print("too much for hand", str(i))
+                print("you lose the bet for this hand")
+                player.pop(i)
+                player[0].pop(i-1) # if this hand bust, directly lose, take away chips and cards
+                bets.pop(i-1)
+                print(player) #DEBUG ONLY
+                print(bets) #DEBUG ONLY
                 continue
+            i += 1
 
-        if player[0] > 21: print("too much!")
+        if len(player) <= 1:
+            print("all player's hand busted, house win.") #if player bust all their hands, no need to draw cards for the dealer
         else:
+            payout = 0
             # dealer keeps drawing till >= 17
+            # todo: compare player's each hand against dealer
             while dealer_points < 17:
                 dealer.append(decks.pop(0))
                 dealer_points = count_points(dealer)
@@ -77,27 +138,33 @@ def blackjack_traditional (chips, decks):
             # dealer too much
             if dealer_points > 21:
                 print("too much for dealer!")
-                if player[0] <= 21:
-                    print("player win!")
-                    chips += 2*bets.pop(0)
+                for i in range(len(bets)):
+                    payout += 2*bets[i]
+                chips += payout
+                print("total payout: ", str(payout))
             # player win
-            elif dealer_points < player[0]:
-                print("player win!")
-                chips += 2*bets.pop(0)
-            # push
-            elif dealer_points == player[0]:
-                print("push")
-                chips += bets.pop(0)
             else:
-                print("dealer's win!")
+                for i in range(1, len(player)):
+                    if dealer_points < player[0][i-1]:
+                        print("hand", str(i), "win!")
+                        payout += 2*bets[i-1]
+                        # push
+                    elif dealer_points == player[0][i-1]:
+                        print("hand", str(i), "push!")
+                        payout += 2*bets[i-1]
+                    else:
+                        print("dealer's win!")
+
+                chips += payout
+                print("total payout: ", str(payout))
 
             # ask for another round?
-            print("your chips: ", chips)
-            isNext = input("Do you want to play next round? (press n to quit, any other key to continue): ")
-            if isNext == "n":
-                break
-            else:
-                continue
+        print("your chips: ", chips)
+        is_next = input("Do you want to play next round? (press n to quit, any other key to continue): ")
+        if is_next == "n":
+            break
+        else:
+            continue
 
 
     return chips, decks

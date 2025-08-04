@@ -28,7 +28,3 @@ def is_blackjack(hands):
             return False
     else:
         return False
-
-# test:
-print(count_points(['♣A','♥2','♣T']))
-print(count_points(['♣A','♥2','♣T','♣T']))
