@@ -26,4 +26,10 @@ Note:
   - pro: easy algo, less complexity, reduce the number of loops used.
   - con: might be confusing for real user.
 
+### 05/08/2025
+- Finished the `double down`. Past the test for it
+- Finished the `bust` check. Final decision was use the idea above
+
+Problem: 
+- Optimize `double down`: Currently, if user don't want to double down, they have to press the key for other action twice. e.g. press `h` twice for `hit`. The possible solution to solve this has been attached in the `game.py`
 
