@@ -15,7 +15,7 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
 
     while True:
         # when the last card has been drawn, re-shuffle the decks
-        if len(len(decks) < last_card):
+        if len(decks) < last_card:
             decks = prepare_cards(num_of_deck)
             print("Too less cards left")
             print("shuffling decks")
@@ -115,6 +115,30 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
         i = 1
         while i < len(player):
             while True and player[0][i-1] < 21:
+                if len(player[i]) == 2:
+                    print("your chips £", chips)
+                    print("(h for hit; s for stand; d for double, x for split)")
+                    choice = input("your choice: ")
+                    if choice == 'd' or choice == 'D':
+                        if chips >= bets[i-1]:
+                            chips -= bets[i-1]
+                            bets[i-1] = bets[i-1]*2
+                            player[i].append(decks.pop(0))
+                            player[0][i-1] = count_points(player[i])
+                            print("player's hand-" + str(i), ": ", player[i])
+                            # check if bigger than 21 after double
+                            break
+                        else:
+                            print("no sufficient chips available.")
+                            print("To double or split, you must put the same amount of chips of your main bet for this hand")
+                            is_buy_in = input("entre the amount of chips you want, or press n to quit: ")
+                            if is_buy_in == 'n':
+                                continue
+                            else:
+                                chips += int(is_buy_in)
+                                print("your chips: £", chips)
+                                continue
+
                 print("Hit or stand on hand-",str(i),"?")
                 is_hit = input("(h for hit and s for stand): ")
                 if is_hit == 's' or is_hit == 'S' :
