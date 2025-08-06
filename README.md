@@ -12,7 +12,7 @@ While this simulator may demonstrate how different strategies affect outcomes, t
 They should **not be interpreted as advice or a guarantee of success in real casino environments**.
 
 ## Planed features
-- [ ] Basic Blackjack game engine (single player vs dealer)
+- [x] Basic Blackjack game engine (single player vs dealer)
 - [ ] Advanced rules: splits, double down, side bet and multi-hands game
 - [ ] Advanced rules2: number of decks, soft 17 rules. 
 - [ ] Multiple strategies with auto-play: random, 17 to 17, basic strategy table and card counting
