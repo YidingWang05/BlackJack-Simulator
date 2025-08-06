@@ -12,7 +12,7 @@ While this simulator may demonstrate how different strategies affect outcomes, t
 They should **not be interpreted as advice or a guarantee of success in real casino environments**.
 
 ## Planed features
-- [ ] Basic Blackjack game engine (single player vs dealer)
+- [x] Basic Blackjack game engine (single player vs dealer)
 - [ ] Advanced rules: splits, double down, side bet and multi-hands game
 - [ ] Advanced rules2: number of decks, soft 17 rules. 
 - [ ] Multiple strategies with auto-play: random, 17 to 17, basic strategy table and card counting
@@ -24,4 +24,7 @@ They should **not be interpreted as advice or a guarantee of success in real cas
   - [x] Day 1: Set up repo & environment, Create project structure.
   - [x] Day 2-3: Finish the basic blackjack game engine. (basic function: hit, stand and win/lose)
   - [ ] Day 3-7: Finish `Advanced rules`. Enable `splits`,`double down`, `side bet` and `multi-hands` game (a player can play multiple hand at once)
+- Week2: Strategy part1
+  - [ ] Day 1-3: Finish the `table` and `17 to 17` strategy
+  - [ ] Day 3-7: Finish the `card counting` strategy
   
