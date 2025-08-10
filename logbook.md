@@ -33,3 +33,20 @@ Note:
 Problem: 
 - Optimize `double down`: Currently, if user don't want to double down, they have to press the key for other action twice. e.g. press `h` twice for `hit`. The possible solution to solve this has been attached in the `game.py`
 
+### 06/08/2025
+- Improved `double down`, player can directly choose from `double` `hit` or `stand`
+- Improved the approach for storing hands' info
+   - following structure used: 
+     `player_hands = [{"cards": [], "point": int, "hand_id": int, "split_id": int, "bet": double, "side_bets": [], }....]`
+      - By this new structure, the readability of the codes can be improved. The following developing would be much easier. Furthermore, this enable a steady id for each hand to avoid confusing for real player.
+
+### 07/08/2025
+- Finished `split`, now the user can split their hand when they have pairs or two tens
+
+- Note: 
+  - Improve UI before any further work done. The UI now is in bad logic and layout, the instruction is unclear which even make testing difficult. (It should be done much earlier, now I couldn't even understand my own UI `:(`)
+
+### 08/07/2025
+- Partially optimize UI, the UI now is easier for testing, but further improvement required.
+- Note:
+    Work delayed-Help my classmate prepare resite--(I'm a good man, i enjoy helping others, so....sorry my project). Expected resume date: 15/08/2025
