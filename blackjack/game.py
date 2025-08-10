@@ -26,9 +26,7 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
             last_card = int(0.2*len(decks)) # mark the last card position.
 
         dealer = []
-        player = [[0]]  # player's hand use 2D array, each hand in a list
-        bets = []  # a list to track each hands' main bets.
-        sides_bets = [[]]  # a 2D array to track sides bets, each list service one hand, inside this list, each element can stand for one bet, tie? pair? first3 cards?
+        player_hand = [] # use following structure to store player hands' info [{"cards": [], "point": int, "hand_id": int, "split_id": int, "bet": double, "side_bets": [], }....]
         payout = 0
         print("your chips: £", chips)
 
@@ -44,14 +42,17 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
         if bet_down < 5 or (bet_down % 5 != 0):
             print("Minimum bet £5, and the bets must be multiple of 5")
             continue
-        player.append([])
+        """player.append([])
         bets.append(bet_down)
-        chips -= bets[0]
+        chips -= bets[0]"""
 
-        num_of_hands = 1
+        hand = {"cards": [], "point": 0, "hand_id": 1, "split_id": 1, "bet": bet_down, "side_bets": []}
+        chips -= bet_down
+        player_hand.append(hand)
+
         index = 0
         # use a while loop to ask if user want one more hand
-        while True and (len(bets)) <= 6:
+        while True and (len(player_hand)) < 6:
             input1 = input("press m for one more hand, press c to continue with current hand: ")
             if input1 == "m" or input1 == "M":
                 # if user want to play another hand, append an empty list in player to store the cards
@@ -68,12 +69,10 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
                     chips += int(buy_in)
                     continue
                 #check end
-                num_of_hands += 1
-                player.append([])
-                player[0].append(0)
-                bets.append(bet_down)
                 index += 1
-                chips -= bets[index]
+                hand = {"cards": [], "point": 0, "hand_id": index+1, "split_id": 1, "bet": bet_down, "side_bets": []}
+                player_hand.append(hand)
+                chips -= player_hand[index]["bet"]
                 continue
             elif input1 == "c" or input1 == "C":
                 print("No more bets")
@@ -81,83 +80,55 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
             else:
                 print("Invalid input")
                 continue
-
+        print(decks)
         # use for-loop to draw cards for each hands of player.
         # player's first card
-        for i in range(1, len(player)):
-            player[i].append(decks.pop(0))
-            # print(player)
-            player[0][i-1] = count_points(player[i])
-            print("player's hand-", str(i), ": ",player[i])
-            print("player's points-", str(i), ": ", player[0][i-1])
+        for i in range(0, len(player_hand)):
+            player_hand[i]["cards"].append(decks.pop(0))
+            player_hand[i]["point"] = count_points(player_hand[i]["cards"])
+            print("player's hand-", str(i), ": ", player_hand[i]["cards"])
+            print("player's points-", str(i), ": ", player_hand[i]["point"])
 
-        """
-        player.append([])
-        player[1].append(decks.pop(0))
-        player[0][0] = count_points(player[1])
-        print("player's hand: ", player[1])
-        print("player's points: ", player[0][0])
-        """
         # dealer's first card
         dealer.append(decks.pop(0))
         dealer_points = count_points(dealer)
         print("dealer's hand: ", dealer)
         print("dealer's points: ", dealer_points)
         # player's second card
-        for i in range(1, len(player)):
-            player[i].append(decks.pop(0))
-            # print(player)
-            player[0][i-1] = count_points(player[i])
-            print("player's hand-", str(i), ": ", player[i])
-            print("player's points-", str(i), ": ", player[0][i-1])
-
+        for i in range(0, len(player_hand)):
+            player_hand[i]["cards"].append(decks.pop(0))
+            player_hand[i]["point"] = count_points(player_hand[i]["cards"])
+            print("player's hand-", str(i), ": ", player_hand[i]["cards"])
+            print("player's points-", str(i), ": ", player_hand[i]["point"])
+        print(player_hand)
         # ask for hit or stand, when > 21 (bust) auto stop by rule
         # use a loop, iterate through all hands
-        i = 1
-        while i < len(player):
-            while True and player[0][i-1] < 21:
+        i = 0
+        while i < len(player_hand):
+
+            while True and player_hand[i]["point"] < 21:
                 # if player's hand only have two cards, ask them if they want to double or split
-                if len(player[i]) == 2:
+                if len(player_hand[i]["cards"]) == 2:
                     print("your chips £", chips)
                     print("d for double")
+                    print("x for split")
                     # choice = input("your choice: ")
                     # double
-                    """
-                    if choice == 'd' or choice == 'D':
-                        if chips >= bets[i-1]:
-                            chips -= bets[i-1]
-                            bets[i-1] = bets[i-1]*2
-                            player[i].append(decks.pop(0))
-                            player[0][i-1] = count_points(player[i])
-                            print("player's hand-" + str(i), ": ", player[i])
-                            break
-                        else:
-                            print("no sufficient chips available.")
-                            print("To double or split, you must put the same amount of chips of your main bet for this hand")
-                            is_buy_in = input("entre the amount of chips you want, or press n to quit: ")
-                            if is_buy_in == 'n':
-                                continue
-                            else:
-                                chips += int(is_buy_in)
-                                print("your chips: £", chips)
-                                continue
-                    """
                 # to be optimized, one possible solution is that when len(player[i]) == 2, print the guidance of double or split. When user input something lead to double and split, check if
                 # len(player[i]) == 2. if so, proceed with command otherwise go to print("invalid")
                 print("h for hit and s for stand, hand-",str(i),"?")
                 choice = input("your choice: ")
-                if choice == 'd' or choice == 'D' and len(player[i]) == 2:
-                    if chips >= bets[i - 1]:
-                        chips -= bets[i - 1]
-                        bets[i - 1] = bets[i - 1] * 2
-                        player[i].append(decks.pop(0))
-                        player[0][i - 1] = count_points(player[i])
-                        print("player's hand-" + str(i), ": ", player[i])
+                if choice == 'd' or choice == 'D' and len(player_hand[i]["cards"]) == 2:
+                    if chips >= player_hand[i]["bet"]:
+                        chips -= player_hand[i]["bet"]
+                        player_hand[i]["bet"] = player_hand[i]["bet"] * 2
+                        player_hand[i]["cards"].append(decks.pop(0))
+                        player_hand[i]["point"] = count_points(player_hand[i]["cards"])
+                        print("player's hand-" + str(i), ": ", player_hand[i]["cards"])
                         break
                     else:
                         print("no sufficient chips available.")
-                        print(
-                            "To double or split, you must put the same amount of chips of your main bet for this hand")
+                        print("To double or split, you must put the same amount of chips of your main bet for this hand")
                         is_buy_in = input("entre the amount of chips you want, or press n to quit: ")
                         if is_buy_in == 'n':
                             continue
@@ -165,43 +136,73 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
                             chips += int(is_buy_in)
                             print("your chips: £", chips)
                             continue
+                elif choice == 'x' or choice == 'X' and len(player_hand[i]["cards"]) == 2 and count_points(player_hand[i]["cards"][0]) == count_points(player_hand[i]["cards"][1]):
+                    hand_id = player_hand[i]["hand_id"]
+                    init_hand = [hands for hands in player_hand if hands["hand_id"] == hand_id]
+                    print("player's hand-", str(i), ": ", init_hand[0]["cards"])
+                    if len(init_hand) >= 4:
+                        print("Can not split same hand over 4 times")
+                        continue
+                    if chips >= player_hand[i]["bet"]:
+                        chips -= player_hand[i]["bet"]
+                        new_hand = {
+                            "cards": [player_hand[i]["cards"].pop(0)],
+                            "point": count_points(player_hand[i]["cards"]),
+                            "hand_id": index,
+                            "split_id": player_hand[i]["split_id"] + 1,
+                            "bet": bet_down,
+                            "side_bets": []
+                            }
+
+                        player_hand[i]["cards"].append(decks.pop(0))
+                        new_hand["cards"].append(decks.pop(0))
+                        player_hand.insert(i+1, new_hand)
+                        print(player_hand)
+                        continue
+                    else:
+                        print("no sufficient chips available.")
+                        print("To double or split, you must put the same amount of chips of your main bet for this hand")
+                        is_buy_in = input("entre the amount of chips you want, or press n to quit: ")
+                        if is_buy_in == 'n':
+                            continue
+                        else:
+                            chips += int(is_buy_in)
+                            print("your chips: £", chips)
+                            continue
+
+
                 elif choice == 's' or choice == 'S' :
-                    print("player's hand-", str(i), ": ", player[i])
-                    print("player's points-", str(i), ": ", player[0][i - 1])
+                    print("player's hand-" + str(i + 1) + ": ", player_hand[i]["cards"])
+                    print("player's points-" + str(i + 1) + ": ", player_hand[i]["point"])
                     break
                 elif choice == 'h' or choice == 'H':
-                    player[i].append(decks.pop(0))
-                    player[0][i-1] = count_points(player[i])
-                    print("player's hand-", str(i), ": ", player[i])
-                    print("player's points-", str(i), ": ", player[0][i - 1])
+                    player_hand[i]["cards"].append(decks.pop(0))
+                    player_hand[i]["point"] = count_points(player_hand[i]["cards"])
+                    print("player's hand-" + str(i+1) + ": ", player_hand[i]["cards"])
+                    print("player's points-" + str(i+1) + ": ",player_hand[i]["point"])
                 else:
                     print("invalid input")
                     continue
             # blackjack check
-            if is_blackjack(player[i]) and (dealer_points != 10 or dealer_points != 11):
+            if is_blackjack(player_hand[i]["cards"]) and (dealer_points != 10 or dealer_points != 11):
                 print("Blackjack on hand", str(i), "!")
-                payout += 1.5*bets[i-1]
+                payout += 1.5*player_hand[i]["bet"]
                 print("your payout on this hand: ", str(payout))
                 chips += payout
                 payout = 0
-                player.pop(i)
-                bets.pop(i)
-                player[0].pop(i-1)
+                player_hand.pop(i)
                 continue # if player has blackjack on this hand and dealer has no chance to get blackjack i.e. first card is not 10 or 11, directly pay player at 3 to 2
 
             # bust check
-            if player[0][i-1] > 21:
+            if player_hand[i]["point"] > 21:
                 print("too much for hand", str(i))
                 print("you lose the bet for this hand")
-                player.pop(i)
-                player[0].pop(i-1) # if this hand bust, directly lose, take away chips and cards
-                bets.pop(i-1)
-                print(player) #DEBUG ONLY
-                print(bets) #DEBUG ONLY
+                player_hand.pop(i)
+                print(player_hand)
                 continue
             i += 1
 
-        if len(player) <= 1:
+        if len(player_hand) < 1:
             print("all player's hand busted, house win.") #if player bust all their hands, no need to draw cards for the dealer
         else:
             # dealer keeps drawing till >= 17
@@ -214,22 +215,22 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
             # dealer bust
             if dealer_points > 21:
                 print("too much for dealer!")
-                for i in range(len(bets)):
-                    payout += 2*bets[i]
+                for i in range(len(player_hand)):
+                    payout += 2*player_hand[i]["bet"]
                 chips += payout
                 print("total payout: ", str(payout))
             # payout
             else:
-                for i in range(1, len(player)):
-                    if is_blackjack(dealer) and (player[0][i-1] != 21):
+                for i in range(1, len(player_hand)):
+                    if is_blackjack(dealer) and not (is_blackjack(player_hand[i]["cards"])):
                         print("dealer has blackjack!")
-                    elif dealer_points < player[0][i-1]:
+                    elif dealer_points < player_hand[i]["point"]:
                         print("hand", str(i), "win!")
-                        payout += 2*bets[i-1]
+                        payout += 2*player_hand[i]["bet"]
                         # push
-                    elif dealer_points == player[0][i-1] or (is_blackjack(dealer) and is_blackjack(player[i])):
+                    elif dealer_points == player_hand[i]["point"] or (is_blackjack(dealer) and is_blackjack(player_hand[i]["bet"])):
                         print("hand", str(i), "push!")
-                        payout += bets[i-1] #if is a tie, just return the bet
+                        payout += player_hand[i]["bet"] #if is a tie, just return the bet
                     else:
                         print("dealer's win!")
 
