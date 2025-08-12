@@ -2,10 +2,13 @@
 def count_points(decks):
     points = 0
     aces = 0
+    # ensure it's always a list
+    decks = [decks] if isinstance(decks, str) else decks
     for card in decks:
-        if card[1] == "T" or card[1] == "J" or card[1] == "Q" or card[1] == "K":
+        print(card)
+        if str(card)[1] == "T" or str(card)[1] == "J" or str(card)[1] == "Q" or str(card)[1] == "K":
             points += 10
-        elif card[1] == "A":
+        elif str(card)[1] == "A":
             points += 11
             aces += 1 # mark how many aces we have
         else:

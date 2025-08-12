@@ -46,7 +46,11 @@ Problem:
 - Note: 
   - Improve UI before any further work done. The UI now is in bad logic and layout, the instruction is unclear which even make testing difficult. (It should be done much earlier, now I couldn't even understand my own UI `:(`)
 
-### 08/07/2025
+### 08/08/2025
 - Partially optimize UI, the UI now is easier for testing, but further improvement required.
 - Note:
     Work delayed-Help my classmate prepare resite--(I'm a good man, i enjoy helping others, so....sorry my project). Expected resume date: 15/08/2025
+
+### 12/08/2025
+- Fixed bugs of the control of `split` and `double`
+- Fixed the bugs of `count_points()`
