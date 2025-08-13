@@ -129,6 +129,7 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
                 # to be optimized, one possible solution is that when len(player[i]) == 2, print the guidance of double or split. When user input something lead to double and split, check if
                 # len(player[i]) == 2. if so, proceed with command otherwise go to print("invalid")
                 print("h for hit and s for stand, hand-",str(i),"?")
+                print(player_hand)
                 choice = input("your choice: ")
                 if (choice == 'd' or choice == 'D') and len(player_hand[i]["cards"]) == 2:
                     if chips >= player_hand[i]["bet"]:
@@ -168,11 +169,17 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
                             "bet": bet_down,
                             "side_bets": []
                             }
-
+                        print("player hand, before splitting: ")
+                        print(player_hand)
                         player_hand[i]["cards"].append(decks.pop(0))
                         new_hand["cards"].append(decks.pop(0))
                         new_hand["point"] = count_points(new_hand["cards"])
-                        player_hand.insert(i+len(init_hand), new_hand)
+                        insert_index = 0
+                        for x in range(0, (len(player_hand)-1)):
+                            insert_index += 1
+                            if player_hand[x + 1]["hand_id"] > new_hand["hand_id"]:
+                                break
+                        player_hand.insert(insert_index, new_hand)
                         print(player_hand)
                         continue
                     else:
