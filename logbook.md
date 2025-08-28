@@ -57,3 +57,8 @@ Problem:
 
 ### 13/08/2025
 - Further improvement of `split`
+
+### 28/08/2025
+- DELAYED! Due to a friend visiting.
+- Improved the UI for better clarity. 
+- Finalized the `game` part. Start the research for strategies

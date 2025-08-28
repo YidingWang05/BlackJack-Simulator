@@ -1,6 +1,7 @@
 import sys
 from tool.deck import prepare_cards
 from blackjack.game import blackjack_traditional
+import random
 
 chips = 0
 number_of_decks = 6 # classic casino numbers of decks for blackjack, but in later update, enable changes to match different styles
@@ -31,9 +32,10 @@ while True:
             continue
 
     print("Your chips: £" + str(chips))
-    # decks = prepare_cards(number_of_decks)
-    decks = ['♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2''♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2']
-    last_card = int(0.2*len(decks))
+    decks = prepare_cards(number_of_decks)
+    random_index = random.uniform(0.15, 0.25)
+    # decks = ['♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2''♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2']
+    last_card = int(random_index*len(decks))
     chips, decks = blackjack_traditional(chips, decks, last_card, number_of_decks)
     # print(decks, number_of_cards)
 
