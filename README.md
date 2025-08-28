@@ -13,7 +13,7 @@ They should **not be interpreted as advice or a guarantee of success in real cas
 
 ## Planed features
 - [x] Basic Blackjack game engine (single player vs dealer)
-- [ ] Advanced rules: splits, double down, side bet and multi-hands game
+- [x] Advanced rules: splits, double down, side bet and multi-hands game
 - [ ] Advanced rules2: number of decks, soft 17 rules. 
 - [ ] Multiple strategies with auto-play: random, 17 to 17, basic strategy table and card counting
 - [ ] Statistical analysis: auto-play huge amount of games, evaluate the winning rate of each strategy for player.
