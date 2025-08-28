@@ -54,3 +54,6 @@ Problem:
 ### 12/08/2025
 - Fixed bugs of the control of `split` and `double`
 - Fixed the bugs of `count_points()`
+
+### 13/08/2025
+- Further improvement of `split`
