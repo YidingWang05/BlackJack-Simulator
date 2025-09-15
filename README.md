@@ -15,7 +15,7 @@ They should **not be interpreted as advice or a guarantee of success in real cas
 - [x] Basic Blackjack game engine (single player vs dealer)
 - [x] Advanced rules: splits, double down, side bet and multi-hands game
 - [ ] Advanced rules2: number of decks, soft 17 rules. 
-- [ ] Multiple strategies with auto-play: random, 17 to 17, basic strategy table and card counting
+- [ ] Multiple strategies with auto-play: random, match the dealer, basic strategy table and card counting
 - [ ] Statistical analysis: auto-play huge amount of games, evaluate the winning rate of each strategy for player.
 - [ ] (optional) GUI
 
@@ -29,6 +29,6 @@ They should **not be interpreted as advice or a guarantee of success in real cas
   - [ ] Day 3-7: Finish the `card counting` strategy
   - #### DELAYED (details in logbook.md)
 - ### Week3: Resume work.
-  - [ ] Day 1-3: Finish the `table` and `17 to 17` strategy
+  - [ ] Day 1-3: Finish the `table` and `match the dealer` strategy
   - [ ] Day 3-7: Finish the `card counting` strategy
   
