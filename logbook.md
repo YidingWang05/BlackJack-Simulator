@@ -57,3 +57,21 @@ Problem:
 
 ### 13/08/2025
 - Further improvement of `split`
+
+### 28/08/2025
+- DELAYED! Due to a friend visiting.
+- Improved the UI for better clarity. 
+- Finalized the `game` part. Start the research for strategies
+- Spent some time in the real casinos across the UK over the last week, found that the most popular rules:
+    - 6 decks in play with auto shuffle machine
+    - Dealer stays on soft 17
+    - No insurance bets
+    - Split Ace one card only 
+    - No `blackjack` after splitting
+- Therefore, proper adjustments to the plans of this projects need to be done to match the real world situation.
+
+### 15/09/2025
+- DELAYED! Due to holiday--Give myself a bit 
+- Finished "No `blackjack` after splitting"
+- Adjusted the logic of `blackjack` checking
+- Finished `Split Ace one card only`
