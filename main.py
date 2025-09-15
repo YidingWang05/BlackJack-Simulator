@@ -32,9 +32,9 @@ while True:
             continue
 
     print("Your chips: £" + str(chips))
-    decks = prepare_cards(number_of_decks)
+    # decks = prepare_cards(number_of_decks)
     random_index = random.uniform(0.15, 0.25)
-    # decks = ['♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2''♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2','♠2']
+    decks = ['CA','CQ','C3','CA','CQ','CA','CA','CA','CA','CK','C5']
     last_card = int(random_index*len(decks))
     chips, decks = blackjack_traditional(chips, decks, last_card, number_of_decks)
     # print(decks, number_of_cards)

@@ -1,5 +1,4 @@
 from time import sleep
-
 from tool.points import count_points
 from tool.pairCheck import pair_check
 from tool.bjCheck import is_blackjack
@@ -21,6 +20,7 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
 
     while True:
         # when the last card has been drawn, re-shuffle the decks
+        print(last_card)
         if len(decks) < last_card:
             decks = prepare_cards(num_of_deck)
             print("Too less cards left")
@@ -33,7 +33,7 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
             last_card = int(0.2*len(decks)) # mark the last card position.
 
         dealer = []
-        player_hand = [] # use following structure to store player hands' info [{"cards": [], "point": int, "hand_id": int, "split_id": int, "bet": double, "side_bets": [], }....]
+        player_hand = [] # use following structure to store player hands' info [{"cards": [], "point": int, "hand_id": int, "split_id": int, "bet": double, "side_bets": [], "isBj": Boolean}....]
         payout = 0
         print("your chips: £", chips)
 
@@ -53,7 +53,7 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
         bets.append(bet_down)
         chips -= bets[0]"""
 
-        hand = {"cards": [], "point": 0, "hand_id": 1, "split_id": 1, "bet": bet_down, "side_bets": []}
+        hand = {"cards": [], "point": 0, "hand_id": 1, "split_id": 1, "bet": bet_down, "side_bets": [], "isBj": False}
         chips -= bet_down
         player_hand.append(hand)
 
@@ -77,7 +77,7 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
                     continue
                 #check end
                 index += 1
-                hand = {"cards": [], "point": 0, "hand_id": index+1, "split_id": 1, "bet": bet_down, "side_bets": []}
+                hand = {"cards": [], "point": 0, "hand_id": index+1, "split_id": 1, "bet": bet_down, "side_bets": [], "isBj": False}
                 player_hand.append(hand)
                 chips -= player_hand[index]["bet"]
                 continue
@@ -109,6 +109,8 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
             player_hand[i]["point"] = count_points(player_hand[i]["cards"])
             print("player's hand-", str(player_hand[i]["hand_id"]) + "-" + str(player_hand[i]["split_id"]), ": ", player_hand[i]["cards"])
             print("player's points-", str(player_hand[i]["hand_id"]) + "-" + str(player_hand[i]["split_id"]), ": ", player_hand[i]["point"])
+            if player_hand[i]["point"] == 21:
+                player_hand[i]["isBj"] = True
         # print(player_hand)
         # ask for hit or stand, when > 21 (bust) auto stop by rule
         # use a loop, iterate through all hands
@@ -133,7 +135,9 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
                 # if player's hand only have two cards, ask them if they want to double or split
                 if len(player_hand[i]["cards"]) == 2:
                     print("d for double")
-                    print("x for split")
+                    # only display x if it's a pair
+                    if count_points(player_hand[i]["cards"][0]) == count_points(player_hand[i]["cards"][1]):
+                        print("x for split")
                     # choice = input("your choice: ")
                     # double
                 # to be optimized, one possible solution is that when len(player[i]) == 2, print the guidance of double or split. When user input something lead to double and split, check if
@@ -169,18 +173,19 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
                         continue
                     if chips >= player_hand[i]["bet"]:
                         chips -= player_hand[i]["bet"]
-
                         new_hand = {
                             "cards": [player_hand[i]["cards"].pop(0)],
                             "point": player_hand[i]["point"],
                             "hand_id": player_hand[i]["hand_id"],
                             "split_id": split_id + 1,
                             "bet": bet_down,
-                            "side_bets": []
+                            "side_bets": [],
+                            "isBj": False
                             }
-                        print("player hand, before splitting: ")
-                        print(player_hand)
+                        # print("player hand, before splitting:")
+                        # print(player_hand)
                         player_hand[i]["cards"].append(decks.pop(0))
+                        player_hand[i]["point"] = count_points(player_hand[i]["cards"])
                         new_hand["cards"].append(decks.pop(0))
                         new_hand["point"] = count_points(new_hand["cards"])
                         insert_index = 0
@@ -190,6 +195,14 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
                                 break
                         player_hand.insert(insert_index, new_hand)
                         print(player_hand)
+                        if (player_hand[i]["cards"][0] == '♠A'
+                                or player_hand[i]["cards"][0] == '♥A'
+                                or player_hand[i]["cards"][0] == '♦A'
+                                or player_hand[i]["cards"][0] =='♣A'
+                                or player_hand[i]["cards"][0] == 'CA'):
+                            print("Split Aces, one card only")
+                            i = i+2
+
                         continue
                     else:
                         print("no sufficient chips available.")
@@ -216,9 +229,9 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
                     print("invalid input")
                     continue
             # blackjack check
-            if is_blackjack(player_hand[i]["cards"]) and (dealer_points != 10 or dealer_points != 11):
+            if player_hand[i]["isBj"] == True and (dealer_points != 10 or dealer_points != 11):
                 print("Blackjack on hand", str(i), "!")
-                payout += 1.5*player_hand[i]["bet"]
+                payout += 2.5*player_hand[i]["bet"]
                 print("your payout on this hand: ", str(payout))
                 chips += payout
                 payout = 0
@@ -235,7 +248,7 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
             i += 1
 
         if len(player_hand) < 1:
-            print("all player's hand busted, house win.") #if player bust all their hands, no need to draw cards for the dealer
+            print("No need to draw card for the dealer") #if player bust all their hands, no need to draw cards for the dealer
         else:
             # dealer keeps drawing till >= 17
             while dealer_points < 17:
@@ -253,8 +266,9 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
             # payout
             else:
                 # compare player's each hand against dealers
-                for i in range(1, len(player_hand)):
-                    if is_blackjack(dealer) and not (is_blackjack(player_hand[i]["cards"])):
+                print(player_hand)
+                for i in range(0, len(player_hand)):
+                    if is_blackjack(dealer) and not (player_hand[i]["isBj"] == False):
                         print("dealer has blackjack!")
                     elif dealer_points < player_hand[i]["point"]:
                         print("hand", str(i), "win!")
@@ -276,6 +290,5 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
             break
         else:
             continue
-
 
     return chips, decks
