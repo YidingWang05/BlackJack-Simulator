@@ -1,6 +1,6 @@
 import sys
 from tool.deck import prepare_cards
-from blackjack.game import blackjack_traditional
+from blackjack.game import blackjack_game
 import random
 
 chips = 0
@@ -35,8 +35,11 @@ while True:
     # decks = prepare_cards(number_of_decks)
     random_index = random.uniform(0.15, 0.25)
     decks = ['CA','CQ','C3','CA','CQ','CA','CA','CA','CA','CK','C5']
-    last_card = int(random_index*len(decks))
-    chips, decks = blackjack_traditional(chips, decks, last_card, number_of_decks)
+    if isTraditionalShoe:
+        last_card = int(random_index*len(decks))
+    else:
+        last_card = 0
+    chips, decks = blackjack_game(chips, decks, last_card, number_of_decks)
     # print(decks, number_of_cards)
 
 

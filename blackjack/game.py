@@ -4,11 +4,12 @@ from tool.pairCheck import pair_check
 from tool.bjCheck import is_blackjack
 from tool.deck import prepare_cards
 import os
+import random
 
 # define a clear function
 clear = lambda: os.system('cls')
 
-def blackjack_traditional (chips, decks, last_card, num_of_deck):
+def blackjack_game (chips, decks, last_card, num_of_deck):
     if len(decks) >= num_of_deck*52:
         print("burning cards, draw 5 cards. ")
         for i in range(5):
@@ -23,14 +24,15 @@ def blackjack_traditional (chips, decks, last_card, num_of_deck):
         print(last_card)
         if len(decks) < last_card:
             decks = prepare_cards(num_of_deck)
-            print("Too less cards left")
+            print("Last card has been drawn.")
             print("shuffling decks")
             print("burning cards, draw 5 cards. ")
             sleep(2)
             for i in range(5):
                 print("card " + str(i))
                 decks.pop(0)
-            last_card = int(0.2*len(decks)) # mark the last card position.
+            random_index = random.uniform(0.15, 0.25)
+            last_card = int(random_index*len(decks)) # mark the last card position.
 
         dealer = []
         player_hand = [] # use following structure to store player hands' info [{"cards": [], "point": int, "hand_id": int, "split_id": int, "bet": double, "side_bets": [], "isBj": Boolean}....]
