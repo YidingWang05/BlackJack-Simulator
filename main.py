@@ -36,10 +36,16 @@ while True:
                     sys.exit(0)
                 continue
 
+    is_trad = input("Do you want to use traditional card shoe? (Press Y/y for yes, any other key for modern auto-shaffle machine: ")
+    if is_trad == "y" or is_trad == "Y":
+        isTraditionalShoe = True
+    else:
+        isTraditionalShoe = False
+
     print("Your chips: £" + str(chips))
-    # decks = prepare_cards(number_of_decks)
+    decks = prepare_cards(number_of_decks)
     random_index = random.uniform(0.15, 0.25)
-    decks = ['CA','CQ','C3','CA','CQ','CA','CA','CA','CA','CK','C5']
+    # decks = ['CA','CQ','C3','CA','CQ','CA','CA','CA','CA','CK','C5']
     if isTraditionalShoe:
         last_card = int(random_index*len(decks))
     else:

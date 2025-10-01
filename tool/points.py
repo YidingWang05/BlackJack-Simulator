@@ -5,7 +5,6 @@ def count_points(decks):
     # ensure it's always a list
     decks = [decks] if isinstance(decks, str) else decks
     for card in decks:
-        print(card)
         if str(card)[1] == "T" or str(card)[1] == "J" or str(card)[1] == "Q" or str(card)[1] == "K":
             points += 10
         elif str(card)[1] == "A":
