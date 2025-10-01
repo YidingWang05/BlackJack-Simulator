@@ -75,3 +75,7 @@ Problem:
 - Finished "No `blackjack` after splitting"
 - Adjusted the logic of `blackjack` checking
 - Finished `Split Ace one card only`
+
+### 01/10/2025
+- Enabled the selection of traditional card shoe or auto-shaffle machine. 
+- Started the work on `match the dealer` strategy analise
