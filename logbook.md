@@ -71,7 +71,7 @@ Problem:
 - Therefore, proper adjustments to the plans of this projects need to be done to match the real world situation.
 
 ### 15/09/2025
-- DELAYED! Due to holiday--Give myself a bit 
+- DELAYED! Due to holiday--Give myself a bit of time to relax before new term. 
 - Finished "No `blackjack` after splitting"
 - Adjusted the logic of `blackjack` checking
 - Finished `Split Ace one card only`
