@@ -8,28 +8,33 @@ number_of_decks = 6 # classic casino numbers of decks for blackjack, but in late
 isTraditionalShoe = True #this is used to track if this game use a traditional card shoe.
 
 while True:
-    print("Welcome to the table.")
-    playing = input("Do you want to play? (Press n to exit, any other letter key to continue) ")
-    if playing == "n" or playing == "N":
-        print("Player stops playing.")
-        sys.exit(0) # stop the program
+    print("Welcome to Blackjack simulator")
+    is_sim = input("Would you like to start a simulation? (y/Y for simulation, any other key for manul play): ")
+    if is_sim == "y":
+        print("Please select from following options:")
+    else:
+        print("Welcome to the table.")
+        playing = input("Do you want to play? (Press n to exit, any other letter key to continue) ")
+        if playing == "n" or playing == "N":
+            print("Player stops playing.")
+            sys.exit(0) # stop the program
 
-    while (chips < 5):
-        buyIn = int(input("buy in new chips? (only integers of buy-in): £"))
-        if buyIn <= 0: # check for zero or negative
-            print("Sorry, buy-in can't be zero or negative.")
-            continue
+        while (chips < 5):
+            buyIn = int(input("buy in new chips? (only integers of buy-in): £"))
+            if buyIn <= 0: # check for zero or negative
+                print("Sorry, buy-in can't be zero or negative.")
+                continue
 
-        chips = chips + buyIn
+            chips = chips + buyIn
 
-        if chips < 5:
-            print("sorry, the minimum bet for this table is £5, unable to start game if you only have less than £5. ")
-            print("The value of your current chips is: £" + str(chips))
-            playing = input("Do you want to leave? (Press n to exit, any other letter key to buy more chips) ")
-            if playing == "n" or playing == "N":
-                print("Player stops playing.")
-                sys.exit(0)
-            continue
+            if chips < 5:
+                print("sorry, the minimum bet for this table is £5, unable to start game if you only have less than £5. ")
+                print("The value of your current chips is: £" + str(chips))
+                playing = input("Do you want to leave? (Press n to exit, any other letter key to buy more chips) ")
+                if playing == "n" or playing == "N":
+                    print("Player stops playing.")
+                    sys.exit(0)
+                continue
 
     print("Your chips: £" + str(chips))
     # decks = prepare_cards(number_of_decks)
