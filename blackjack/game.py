@@ -10,7 +10,7 @@ import random
 clear = lambda: os.system('cls')
 
 def blackjack_game (chips, decks, last_card, num_of_deck):
-    if len(decks) >= num_of_deck*52:
+    if len(decks) >= num_of_deck*52 and last_card > 0:
         print("burning cards, draw 5 cards. ")
         for i in range(5):
             print("card " + str(i))
@@ -22,7 +22,13 @@ def blackjack_game (chips, decks, last_card, num_of_deck):
     while True:
         # when the last card has been drawn, re-shuffle the decks
         print(last_card)
-        if len(decks) < last_card:
+        if last_card == 0:
+            shuffle_threshold = random.uniform(4,6)
+            if num_of_deck*52 - len(decks) >= shuffle_threshold:
+                print("shuffling....")
+                sleep(4)
+                decks = prepare_cards(num_of_deck)
+        elif len(decks) < last_card:
             decks = prepare_cards(num_of_deck)
             print("Last card has been drawn.")
             print("shuffling decks")
@@ -268,7 +274,7 @@ def blackjack_game (chips, decks, last_card, num_of_deck):
             # payout
             else:
                 # compare player's each hand against dealers
-                print(player_hand)
+                sleep(2)
                 for i in range(0, len(player_hand)):
                     if is_blackjack(dealer) and not (player_hand[i]["isBj"] == False):
                         print("dealer has blackjack!")
@@ -276,7 +282,7 @@ def blackjack_game (chips, decks, last_card, num_of_deck):
                         print("hand", str(i), "win!")
                         payout += 2*player_hand[i]["bet"]
                         # push
-                    elif dealer_points == player_hand[i]["point"] or (is_blackjack(dealer) and is_blackjack(player_hand[i]["bet"])):
+                    elif dealer_points == player_hand[i]["point"] or (is_blackjack(dealer) and is_blackjack(player_hand[i]["cards"])):
                         print("hand", str(i), "push!")
                         payout += player_hand[i]["bet"] #if is a tie, just return the bet
                     else:
